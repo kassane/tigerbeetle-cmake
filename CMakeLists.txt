@@ -3,12 +3,15 @@ project(tigerbeetle-client LANGUAGES C)
 
 include(FetchContent)
 find_package(TigerBeetle QUIET)
-if(NOT TigerBeetle_FOUND)
+if (NOT TigerBeetle_FOUND)
     FetchContent_Declare(TigerBeetle GIT_REPOSITORY https://github.com/kassane/tigerbeetle-cpp.git
         GIT_TAG main)
     FetchContent_GetProperties(TigerBeetle)
-    # required
+# required
     set(APP_TARGETS ${PROJECT_NAME}) # executable or executables (need foreach) names
+# optional
+#   set(TB_VERSION 0.13.137) # tigerbeetle branch/tag repo (default: main)
+#   set(TB_ADDRESS 3000) # tb_server port (default: 3001)
     FetchContent_MakeAvailable(TigerBeetle)
 endif()
 

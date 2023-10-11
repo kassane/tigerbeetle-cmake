@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '13 8 * * 0'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: latest
+
+      - name: CMake - Configure
+        run: cmake -B build
+
+      - name: CMake - Build client
+        run: cmake --build build --target run_with_tb
